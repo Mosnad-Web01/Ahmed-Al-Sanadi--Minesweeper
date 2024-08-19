@@ -12,8 +12,48 @@ const output = [
   [9, 9, 3, 1],
 ]
 
-function mainSweeper(src){
- return;
-}
+function minesweeper(board) {
+  const rows = board.length;
+  const cols = board[0].length;
+  
+  const directions = [
+    [-1, -1], [-1, 0], [-1, 1],
+    [0, -1],         [0, 1],
+    [1, -1], [1, 0], [1, 1]
+  ];
+  
+  const result = board.map(row => row.slice());
 
-mineSweeper(input)
+  for (let r = 0; r < rows; r++) 
+  {
+      for (let c = 0; c < cols; c++) 
+      {
+          if (board[r][c] === 1) 
+          {
+            result[r][c] = 9; 
+          } 
+          else
+          {
+            let mineCount = 0;
+            directions.forEach(([dr, dc]) => 
+          {
+              const newRow = r + dr;
+              const newCol = c + dc;
+              
+              if (
+                newRow >= 0 && newRow < rows &&
+                newCol >= 0 && newCol < cols &&
+                board[newRow][newCol] === 1
+              )
+              {
+                mineCount++;
+              }
+            } );
+            
+            result[r][c] = mineCount; 
+          }
+      }
+  } 
+  return result;
+}
+console.log(minesweeper(input));
